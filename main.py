@@ -78,8 +78,8 @@ def main():
             anova_analysis.perform_anova(data, 'Director', 'DurationMinutes', 'Director vs Duration')
         elif choice == '3':
             anova_analysis.perform_anova(data, 'Writer', 'DurationMinutes', 'Writer vs Duration')
-        elif choice == '4':
-            anova_analysis.perform_anova(data, 'Actors', 'DurationMinutes', 'Number of Actors vs Duration')
+        elif choice == '4':  
+            anova_analysis.numactors_vs_duration_analysis(data) 
         elif choice == '5':
             regression_analysis.perform_regression(data, 'ReleaseYear', 'DurationMinutes')
         elif choice == '6':
@@ -91,7 +91,7 @@ def main():
         elif choice == '9':
             anova_analysis.director_sentiment_vs_duration(data)
         elif choice == '10':
-            anova_analysis.year_vs_sentiment_analysis(data)  # 正确的函数名是 year_vs_sentiment_analysis
+            anova_analysis.year_vs_sentiment_analysis(data)  
         elif choice == '11':
             anova_analysis.writer_vs_duration_analysis(data)
         elif choice == '12':

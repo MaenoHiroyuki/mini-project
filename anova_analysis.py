@@ -3,7 +3,13 @@ import statsmodels.api as sm
 import statsmodels.formula.api as ols
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.utils import resample 
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
 
+
+    
 # 将 ReleaseYear 转换为 YearCategory
 def assign_yearcategory(data):
     # 按时间段将 ReleaseYear 转换为 YearCategory
@@ -12,6 +18,14 @@ def assign_yearcategory(data):
     
     # 生成 YearCategory 列
     data['YearCategory'] = pd.cut(data['ReleaseYear'], bins=bins, labels=labels, right=False)
+    return data
+
+
+
+
+# 统计每部电影的演员数量
+def calculate_numactors(data):
+    data['NumActors'] = data['Actors'].apply(lambda x: len(str(x).split('|')))
     return data
 
 
@@ -128,6 +142,19 @@ def interpret_anova_results(f_value, p_value, independent_var, dependent_var, th
         print(f"结论: 拒绝H0假设。{independent_var} 对 {dependent_var} 有显著影响 (p值 < {threshold})")
     else:
         print(f"结论: 无法拒绝H0假设。{independent_var} 对 {dependent_var} 没有显著影响 (p值 >= {threshold})")
+
+
+
+# 执行演员数量 vs 电影时长的 ANOVA 分析
+def numactors_vs_duration_analysis(data):
+    # 统计演员数量
+    data = calculate_numactors(data)
+    
+    print("\n执行演员数量 vs 电影时长的 ANOVA 分析...")
+    perform_anova(data, 'NumActors', 'DurationMinutes', 'numactors vs duration')
+
+
+
 
 
 # 更新后的 visualize_anova 函数
@@ -319,13 +346,9 @@ def visualize_anova_writer_vs_duration(data):
     plt.xticks(rotation=90)
     plt.show()
 
-def visualize_anova_numactors_vs_duration(data):
-    plt.figure(figsize=(10, 6))
-    sns.boxplot(x="NumActors", y="DurationMinutes", data=data)
-    plt.title('Box Plot of DurationMinutes by Number of Actors')
-    plt.xlabel('NumActors')
-    plt.ylabel('DurationMinutes')
-    plt.show()
+from sklearn.utils import resample
+
+
 
 def visualize_anova_sentiment_vs_duration(data):
     plt.figure(figsize=(10, 6))
